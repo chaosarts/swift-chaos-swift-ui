@@ -7,7 +7,7 @@ import PackageDescription
 let isDevelopment = ProcessInfo.processInfo.environment["CHAOS_SWIFT_LIBRARY_DEVELOPMENT"] == "1"
 
 let chaosLibDependencies: [Package.Dependency] = if isDevelopment {
-    [.package(path: "../ChaosMath")]
+    [.package(path: "../swift-chaos-math")]
 } else {
     [.package(url: "https://github.com/chaosarts/swift-chaos-math.git", branch: "main")]
 }
@@ -22,8 +22,7 @@ let package = Package(
             targets: ["ChaosSwiftUI"],
         ),
     ],
-    dependencies: [
-        .package(path: "../ChaosMath"),
+    dependencies: chaosLibDependencies + [
         .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", .upToNextMajor(from: "0.65.0")),
     ],
     targets: [
@@ -32,7 +31,7 @@ let package = Package(
         .target(
             name: "ChaosSwiftUI",
             dependencies: [
-                .product(name: "ChaosMath", package: "ChaosMath"),
+                .product(name: "ChaosMath", package: "swift-chaos-math"),
             ],
             swiftSettings: [.enableUpcomingFeature("MemberImportVisibility")],
             plugins: [
